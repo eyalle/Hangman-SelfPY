@@ -3,6 +3,11 @@ import colorsys
 import os
 from colored import fg, bg, attr
 
+
+
+def get_secret_word():
+    return SECRET_WORD
+
 def pri(str):
     TEXT_COLOR = fg(199)
     RES = attr('reset')
@@ -27,16 +32,17 @@ def start_game(WORDS_FILE_PATH, WORD_INDEX):
     os.system('clear')
     pri_logo()
 
+    global SECRET_WORD
     SECRET_WORD = choose_word(WORDS_FILE_PATH, int(WORD_INDEX))[1]
     ALLOWED_TRYS = len(SECRET_WORD)
 
-    while (not(check_win(SECRET_WORD, letters_guessed)) and ALLOWED_TRYS > 0):
-        pri(show_hidden_word(SECRET_WORD, letters_guessed))
+    while (not(check_win(letters_guessed)) and ALLOWED_TRYS > 0):
+        pri(show_hidden_word(letters_guessed))
         char_guessed = input("Please guess a letter\n")
         while (not(check_valid_input(char_guessed, letters_guessed))):
             pri("please use valid english characters only, and not letters already guessed.\n")
             char_guessed = input()
-        ALLOWED_TRYS = print_hangman(ALLOWED_TRYS, char_guessed, SECRET_WORD)
+        ALLOWED_TRYS = print_hangman(ALLOWED_TRYS, char_guessed)
 
     if (ALLOWED_TRYS > 0):
         pri ("YOU WIN ! ! !")
@@ -78,14 +84,12 @@ def check_valid_input(letter_guessed, old_letters_guessed):
 
         return False
 
-def show_hidden_word(secret_word, old_letters_guessed):
+def show_hidden_word(old_letters_guessed):
     """
     show_hidden_word recieves the secret word and the list of old letters letter_guessed
     and returns a string with the right old letters guessed and _ instead of not guessed letters
 
-    :param secret_word: string phrase player needs to guess
     :param old_letters_guessed: list of letters guessed
-    :type secret_word: str
     :type old_letters_guessed: list
     :return: generated string, see above
     :rtype: str
@@ -93,55 +97,53 @@ def show_hidden_word(secret_word, old_letters_guessed):
 
     successfully_guessed = "\n\n\n"
 
-    for char in secret_word:
-        successfully_guessed += char if (check_win(secret_word, char)) else "_ "
-        # if (check_win(secret_word, char)):
+    for char in old_letters_guessed:
+        # pri (char)
+        successfully_guessed += f"{char} " if (check_win(char)) else "_ "
+        # if (check_win(char)):
         #     successfully_guessed += f'{char} '
         # else:
         #     successfully_guessed += "_ "
 
     return successfully_guessed
 
-def check_win(secret_word, old_letters_guessed):
+def check_win(old_letters_guessed):
     """
     check_win recieves the secret word and the list of old letters letter_guessed
     and True if the secret word was guessed or False, otherwise
 
-    :param secret_word: string phrase player needs to guess
     :param old_letters_guessed: list of letters guessed
-    :type secret_word: str
     :type old_letters_guessed: list
-    :return: True if secret_word was guessed
+    :return: True if SECRET_WORD was guessed
     :rtype: boolean
     """
-    win = True
-    for char in secret_word:
-        if (not(char in old_letters_guessed)):
+    win = len(old_letters_guessed) > 0
+    for char in old_letters_guessed:
+        if (not(check_guess(char))):
             win = False
 
     return win
 
-def check_guess (char, secret_word):
+
+def check_guess (char):
     """
     check_guess a char and the secret word to guess.
             check_guess will return True if the char is in the SECRET_WORD, or False otherwise.
     :param char: a guessed character
-    :param secret_word: string phrase player needs to guess
     :type char: string
-    :type secret_word: string
 
-    :return: True if char is in secret_word
+    :return: True if char is in SECRET_WORD
     :rtype: boolean
     """
     # guess = False
-    # for ch in secret_word:
+    # for ch in get_secret_word():
     #     if (char == ch):
     #         guess = True
     #         break
-    # if (char in secret_word):
-    return (char in secret_word)
+    # if (char in get_secret_word()):
+    return (char in get_secret_word())
 
-def print_hangman(num_of_tries, char, SECRET_WORD):
+def print_hangman(num_of_tries, char):
     """
     print_hangman recieves the number of tries a user has and does the following:
         if the character guessed is valild, and is part of the secret word - print the current state of HangMan, return the same amount of guesses left.
@@ -207,7 +209,7 @@ def print_hangman(num_of_tries, char, SECRET_WORD):
     """
     }
 
-    if (is_valid_input(char) and check_guess(char, SECRET_WORD)):
+    if (is_valid_input(char) and check_guess(char)):
         pri (HANGMAN_PHOTOS[len(HANGMAN_PHOTOS)-num_of_tries-1])
         return num_of_tries
     else:
