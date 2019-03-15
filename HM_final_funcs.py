@@ -55,8 +55,8 @@ def is_valid_input(letter_guessed):
     """
     if (len(letter_guessed) > 1 or not(letter_guessed.isalpha())):
         return False
-    else:
-        return True
+
+    return True
 
 def check_valid_input(letter_guessed, old_letters_guessed):
         """
@@ -94,10 +94,11 @@ def show_hidden_word(secret_word, old_letters_guessed):
     successfully_guessed = "\n\n\n"
 
     for char in secret_word:
-        if (char in old_letters_guessed):
-            successfully_guessed += f'{char} '
-        else:
-            successfully_guessed += "_ "
+        successfully_guessed += char if (check_win(secret_word, char)) else "_ "
+        # if (check_win(secret_word, char)):
+        #     successfully_guessed += f'{char} '
+        # else:
+        #     successfully_guessed += "_ "
 
     return successfully_guessed
 
@@ -132,12 +133,13 @@ def check_guess (char, secret_word):
     :return: True if char is in secret_word
     :rtype: boolean
     """
-    guess = False
-    for ch in secret_word:
-        if (char == ch):
-            guess = True
-            break
-    return guess
+    # guess = False
+    # for ch in secret_word:
+    #     if (char == ch):
+    #         guess = True
+    #         break
+    # if (char in secret_word):
+    return (char in secret_word)
 
 def print_hangman(num_of_tries, char, SECRET_WORD):
     """
