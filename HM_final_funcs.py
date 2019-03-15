@@ -27,7 +27,7 @@ def start_game(WORDS_FILE_PATH, WORD_INDEX):
     os.system('clear')
     pri_logo()
 
-    SECRET_WORD = choose_word(WORDS_FILE_PATH, WORD_INDEX)[1]
+    SECRET_WORD = choose_word(WORDS_FILE_PATH, int(WORD_INDEX))[1]
     ALLOWED_TRYS = len(SECRET_WORD)
 
     while (not(check_win(SECRET_WORD, letters_guessed)) and ALLOWED_TRYS > 0):

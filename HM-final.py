@@ -3,7 +3,8 @@ from HM_final_funcs import  pri_logo, start_game
 pri_logo()
 
 if __name__ == "__main__":
-    WORDS_FILE_PATH = input("Hello!\nPlease submit the words file So I can pick a word for you:\n\t")  or "words.txt"
+    # os.system('pip install -r requirements.txt')
+    WORDS_FILE_PATH = input("Hello!\nPlease submit the words file So I can pick a word for you, or hit Enter for default:\n\t")  or "words.txt"
     WORD_INDEX = input("Also, please enter a random number:\t") or 63
     start_game(WORDS_FILE_PATH, WORD_INDEX)
 
