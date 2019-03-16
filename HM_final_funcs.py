@@ -28,7 +28,7 @@ def start_game(WORDS_FILE_PATH, WORD_INDEX):
     :rtype:
     """
 
-    letters_guessed = []
+    letters_guessed = ["!"]
     os.system('clear')
     pri_logo()
 
@@ -95,11 +95,16 @@ def show_hidden_word(old_letters_guessed):
     :rtype: str
     """
 
+    pri (old_letters_guessed)
     successfully_guessed = ("_ " * len(SECRET_WORD)).split()
+    pri (successfully_guessed)
     for char in old_letters_guessed:
         if (check_win(char)):
             successfully_guessed[get_guessed_index(char)] = char
+        else:
+            pri (successfully_guessed)
 
+    pri (successfully_guessed)
     return "".join(successfully_guessed)
 
 def check_win(old_letters_guessed):
@@ -112,7 +117,7 @@ def check_win(old_letters_guessed):
     :return: True if SECRET_WORD was guessed
     :rtype: boolean
     """
-    win = all([char in old_letters_guessed for char in get_secret_word()])
+    win = all([char in get_secret_word() for char in old_letters_guessed])
     return win
 
 def check_guess (char):
