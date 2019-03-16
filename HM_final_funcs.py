@@ -97,7 +97,10 @@ def show_hidden_word(old_letters_guessed):
     successfully_guessed = ("_ " * len(SECRET_WORD)).split()
     for char in old_letters_guessed:
         if (check_guess(char)):
-            successfully_guessed[get_guessed_index(char)] = char
+            successful_indexes = get_guessed_index(char)
+            for index in successful_indexes:
+                successfully_guessed[index] = char
+
 
     return "".join(successfully_guessed)
 
@@ -200,7 +203,14 @@ def print_hangman(num_of_tries, char):
         return num_of_tries - 1
 
 def get_guessed_index(successfully_guessed):
-    return SECRET_WORD.find(successfully_guessed)
+    indexes = []
+    i = 0
+    while (i != -1):
+        indexes.append(SECRET_WORD.find(successfully_guessed, i))
+        if (i != -1):
+            break
+        i = SECRET_WORD.find(successfully_guessed) + 1
+    return indexes
 
 def choose_word(file_path, index):
     """
