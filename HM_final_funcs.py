@@ -37,7 +37,6 @@ def start_game(WORDS_FILE_PATH, WORD_INDEX):
     ALLOWED_TRYS = len(SECRET_WORD)
 
     while (not(check_win(letters_guessed)) and ALLOWED_TRYS > 0):
-        pri(show_hidden_word(letters_guessed))
         char_guessed = input("Please guess a letter\n")
         while (not(check_valid_input(char_guessed, letters_guessed))):
             pri("please use valid english characters only, and not letters already guessed.\n")
@@ -95,17 +94,12 @@ def show_hidden_word(old_letters_guessed):
     :rtype: str
     """
 
-    successfully_guessed = "\n\n\n"
-
+    successfully_guessed = ("_ " * len(SECRET_WORD)).split()
     for char in old_letters_guessed:
-        # pri (char)
-        successfully_guessed += f"{char} " if (check_win(char)) else "_ "
-        # if (check_win(char)):
-        #     successfully_guessed += f'{char} '
-        # else:
-        #     successfully_guessed += "_ "
+        if (check_win(char)):
+            successfully_guessed[get_guessed_index(char)] = char
 
-    return successfully_guessed
+    return "".join(successfully_guessed)
 
 def check_win(old_letters_guessed):
     """
@@ -121,9 +115,9 @@ def check_win(old_letters_guessed):
     for char in old_letters_guessed:
         if (not(check_guess(char))):
             win = False
+            break
 
     return win
-
 
 def check_guess (char):
     """
@@ -216,6 +210,8 @@ def print_hangman(num_of_tries, char):
         pri (HANGMAN_PHOTOS[len(HANGMAN_PHOTOS)-(num_of_tries)])
         return num_of_tries - 1
 
+def get_guessed_index(successfully_guessed):
+    return SECRET_WORD.find(successfully_guessed)
 
 def choose_word(file_path, index):
     """
