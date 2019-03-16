@@ -59,10 +59,11 @@ def is_valid_input(letter_guessed):
     :return: True or False, if the player's char is in English
     :rtype: boolean
     """
-    if (len(letter_guessed) > 1 or not(letter_guessed.isalpha())):
-        return False
-
-    return True
+    # if (len(letter_guessed) > 1 or not(letter_guessed.isalpha())):
+    #     return False
+    #
+    # return True
+    return (len(letter_guessed) > 1 or not(letter_guessed.isalpha()))
 
 def check_valid_input(letter_guessed, old_letters_guessed):
         """
