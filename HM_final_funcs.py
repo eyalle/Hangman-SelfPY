@@ -28,7 +28,7 @@ def start_game(WORDS_FILE_PATH, WORD_INDEX):
     :rtype:
     """
 
-    letters_guessed = ["!"]
+    letters_guessed = []
     os.system('clear')
     pri_logo()
 
@@ -42,7 +42,7 @@ def start_game(WORDS_FILE_PATH, WORD_INDEX):
             pri("please use valid english characters only, and not letters already guessed.\n")
             char_guessed = input()
         ALLOWED_TRYS = print_hangman(ALLOWED_TRYS, char_guessed)
-        print (show_hidden_word(letters_guessed))
+        pri (show_hidden_word(letters_guessed))
 
     if (ALLOWED_TRYS > 0):
         pri ("YOU WIN ! ! !")
@@ -94,17 +94,11 @@ def show_hidden_word(old_letters_guessed):
     :return: generated string, see above
     :rtype: str
     """
-
-    pri (old_letters_guessed)
     successfully_guessed = ("_ " * len(SECRET_WORD)).split()
-    pri (successfully_guessed)
     for char in old_letters_guessed:
-        if (check_win(char)):
+        if (check_guess(char)):
             successfully_guessed[get_guessed_index(char)] = char
-        else:
-            pri (successfully_guessed)
 
-    pri (successfully_guessed)
     return "".join(successfully_guessed)
 
 def check_win(old_letters_guessed):
@@ -117,7 +111,7 @@ def check_win(old_letters_guessed):
     :return: True if SECRET_WORD was guessed
     :rtype: boolean
     """
-    win = all([char in get_secret_word() for char in old_letters_guessed])
+    win = all([char in old_letters_guessed for char in get_secret_word()])
     return win
 
 def check_guess (char):
@@ -130,12 +124,6 @@ def check_guess (char):
     :return: True if char is in SECRET_WORD
     :rtype: boolean
     """
-    # guess = False
-    # for ch in get_secret_word():
-    #     if (char == ch):
-    #         guess = True
-    #         break
-    # if (char in get_secret_word()):
     return (char in get_secret_word())
 
 def print_hangman(num_of_tries, char):
