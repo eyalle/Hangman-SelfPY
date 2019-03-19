@@ -129,6 +129,8 @@ def check_valid_input(letter_guessed, old_letters_guessed):
         if (is_valid_input(letter_guessed) and (old_letters_guessed.count(letter_guessed)) < 1):
             old_letters_guessed.append(letter_guessed)
             valid_input = True
+        else:
+            pri ("\n X")
 
         return valid_input
 
