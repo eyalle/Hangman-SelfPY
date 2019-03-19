@@ -68,19 +68,16 @@ def pri(str):
     """
     TEXT_COLOR = fg(199)
     RES = attr('reset')
-
     print (TEXT_COLOR, str, RES)
 
 def start_game(WORDS_FILE_PATH, WORD_INDEX):
     """
     start_game will be responsible for tha management of the game.
     It will basically interact with the user and call functions.
-
     :param WORDS_FILE_PATH: string representing a file with words in it
     :param WORD_INDEX: string an index to use for choosing the word to be guessed
     :type WORDS_FILE_PATH: string
     :type WORD_INDEX: string
-
     :return: no returned value
     :rtype:  no returned value
     """
@@ -110,7 +107,6 @@ def is_valid_input(letter_guessed):
     letter_guessed checks if the argument passed is a valid English letter or not.
     :param letter_guessed: player's char
     :type letter_guessed: string
-
     :return: True or False, if the player's char is in English
     :rtype: boolean
     """
@@ -141,7 +137,6 @@ def show_hidden_word(old_letters_guessed):
     show_hidden_word recieves a list of old letters guessed and returns a string with the right old letters guessed and _ instead of missing letters
     :param old_letters_guessed: list of letters guessed
     :type old_letters_guessed: list
-
     :return: generated string, of successfully guessed chars and _ instead of chars that remain unguessed
     :rtype: string
     """
@@ -154,11 +149,9 @@ def show_hidden_word(old_letters_guessed):
     return "".join(successfully_guessed)
 
 def check_win(old_letters_guessed):
-    """
-    check_win recieves the list of old letters guessed and will return True if the secret word was fully guessed or False, otherwise
+    """check_win recieves the list of old letters guessed and will return True if the secret word was fully guessed or False, otherwise
     :param old_letters_guessed: list of letters guessed
     :type old_letters_guessed: list
-
     :return: True if SECRET_WORD was guessed
     :rtype: boolean
     """
@@ -170,7 +163,6 @@ def check_guess (char):
     check_guess recieves a charand will return True if the char is in the SECRET_WORD, or False otherwise.
     :param char: a guessed character
     :type char: string
-
     :return: True if char is in SECRET_WORD
     :rtype: boolean
     """
@@ -185,7 +177,6 @@ def print_hangman(num_of_tries, char):
     :param char: player's guessed char
     :type num_of_tries: int
     :type char: string
-
     :return: the number of guesses the player has accumulated
     :rtype: int
     """
@@ -200,27 +191,19 @@ def get_guessed_index(successfully_guessed):
     get_guessed_index recieves a successfully guessed char in SECRET_WORD and returns all the indexes of that char in SECRET_WORD
     :param successfully_guessed: successfully guessed char
     :type successfully_guessed: string
-
     :return: list of indexes of successfully_guessed in SECRET_WORD
     :rtype: list
     """
-    indexes = []
-    i = SECRET_WORD.find(successfully_guessed)
-    while (i != -1):
-        indexes.append(i)
-        i = SECRET_WORD.find(successfully_guessed, i+1)
-    return indexes
+    return [i for i, ch in enumerate(SECRET_WORD) if ch == successfully_guessed]
 
 def choose_word(file_path, index):
     """
     choose_word recieves a string-based file path, and an index.
     choose_word will return a tuple that contains - (num of unique words in file, a random word based on the index)
-
     :param file_path: a string representing a file
     :param index: a number
     :type file_path: string
     :type index: int
-
     :return: tuple of 2 elements (num of unique words in file, a random word to guess)
     :rtype: tuple
     """
